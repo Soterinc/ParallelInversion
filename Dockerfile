@@ -4,13 +4,32 @@ FROM nvidia/cuda:11.0.3-base-ubuntu20.04
 # Set environment variables to avoid user interaction during installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Python 3.9 and other essential build tools
+# Install Python 3.9, and ensure it's the default version
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
     python3.9 \
     python3.9-dev \
     python3.9-distutils \
-    python3-pip \
     curl \
+    && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 \
+    && update-alternatives --set python3 /usr/bin/python3.9 \
+    && apt-get remove -y python3.8 python3.8-minimal python3-pip \
+    && ln -sf /usr/bin/python3.9 /usr/bin/python \
+    && ln -sf /usr/bin/python3.9 /usr/bin/python3 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install pip for Python 3.9
+RUN apt-get update && apt install -y python3-pip \
+    && python3.9 -m pip install --upgrade pip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install other essential build tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
     libopenexr-dev \
@@ -22,7 +41,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxcursor-dev \
     libxrandr-dev \
     cuda-toolkit-11-0 \
-    && ln -s /usr/bin/python3.9 /usr/bin/python \
+    xvfb \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -32,6 +51,10 @@ RUN cd /tmp \
     && chmod +x cmake-3.22.1-linux-x86_64.sh \
     && ./cmake-3.22.1-linux-x86_64.sh --prefix=/usr/local --skip-license \
     && rm cmake-3.22.1-linux-x86_64.sh
+
+# Install a virtual display
+ENV DISPLAY :99
+RUN Xvfb :99 -screen 0 1600x1200x24+32 &
 
 # Upgrade pip to the latest version
 RUN pip install --no-cache-dir --upgrade pip

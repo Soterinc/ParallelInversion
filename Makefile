@@ -18,7 +18,8 @@ build: update
 
 run:
 	@echo "Running container $(CONTAINER_NAME) with GPU access from image $(IMAGE_NAME):$(TAG)..."
-	docker run --gpus all --name $(CONTAINER_NAME) -d $(IMAGE_NAME):$(TAG)
+	docker run --gpus all --name $(CONTAINER_NAME) -v $(PWD)/../../data:/app/data/nerf \
+	-it -d $(IMAGE_NAME):$(TAG) /bin/bash
 
 stop:
 	@echo "Stopping container $(CONTAINER_NAME)..."

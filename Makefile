@@ -27,6 +27,14 @@ stop:
 	@echo "Removing container $(CONTAINER_NAME)..."
 	docker rm $(CONTAINER_NAME)
 
+push:
+	docker tag ${IMAGE_NAME}:${TAG} ghcr.io/soterinc/${IMAGE_NAME}:${TAG}
+	docker push ghcr.io/soterinc/${IMAGE_NAME}:${TAG}
+
+pull:
+	docker pull ghcr.io/sotereinc/${IMAGE_NAME}:${TAG}
+	docker tag ghcr.io/soterinc/${IMAGE_NAME}:${TAG} ${IMAGE_NAME}:${TAG}
+
 clean:
 	@echo "Removing Docker image $(IMAGE_NAME):$(TAG)..."
 	docker rmi $(IMAGE_NAME):$(TAG)

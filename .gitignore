@@ -18,3 +18,5 @@ imgui.ini
 .run/
 .devcontainer/
 .editorconfig
+.amlignore
+.amlignore.*

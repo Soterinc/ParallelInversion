@@ -13,4 +13,4 @@ args.load_snapshot = snapshot_path
 args.scene = scene
 args.POSE_ESTIMATION_ONLY = True
 
-error_rotation, error_translation, meta_optimization = run_pose_refinement.main(args)
+meta_optimization = run_pose_refinement.main(args)

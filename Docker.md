@@ -5,6 +5,7 @@
 ## Getting Started
 
 ```{bash}
+make update
 make build
 make run
 make enter

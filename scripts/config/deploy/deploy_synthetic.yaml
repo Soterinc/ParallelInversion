@@ -1,0 +1,13 @@
+
+#Identifier
+dataset_name: "nerf_synthetic"
+
+#Model registration
+load_snapshot: '/app/data/nerf/nerf_synthetic/lego/model_L2.msgpack'
+
+#Target
+scene: 'lego'
+target_filename: '/app/data/nerf/nerf_synthetic/lego/test/r_0.png'
+
+#Debug related
+POSE_ESTIMATION_ONLY: True # enable it when you are certain that the model has been trained to skip double-check

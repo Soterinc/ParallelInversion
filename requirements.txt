@@ -8,3 +8,7 @@ tqdm
 opencv-python
 configargparse
 pyyaml
+pandas
+open3d
+pyproj
+pycolmap
